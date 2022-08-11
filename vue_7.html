@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	
+		<title>J1 Practice</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.formfield{margin-bottom:10px;}
+		</style>
+	</head>
+	<body>
+  <!-- Note: The provided link to the 2020 J1 contest is broken. -->
+	<p>Basketball Winning Score Problem. <a href="https://dmoj.ca/problem/ccc19j1">from the 2019 J1 problem hosted by the CCC.</a></p>
+	<div id="app">
+
+    <h2>Team 1: {{team_name.team_1}}</h2>
+		<div class="formfield">
+			<label>Number of 3-point Shots: <label> <input v-model="threePntShot_qty.team1_threePntShot">
+		</div>
+		<div class="formfield">
+			<label>Number of 2-point Field Goals: <label> <input v-model="twoPntShot_qty.team1_twoPntShot">
+		</div>
+		<div class="formfield">
+			<label>Number of 1-point Free Throws: <label> <input v-model="onePntShot_qty.team1_onePntShot">
+		</div>
+
+    <h2>Team 2: {{team_name.team_2}}</h2>
+		<div class="formfield">
+			<label>Number of 3-point Shots: <label> <input v-model="threePntShot_qty.team2_threePntShot">
+		</div>
+		<div class="formfield">
+			<label>Number of 2-point Field Goals: <label> <input v-model="twoPntShot_qty.team2_twoPntShot">
+		</div>
+		<div class="formfield">
+			<label>Number of 1-point Free Throws: <label> <input v-model="onePntShot_qty.team2_onePntShot">
+		</div>
+
+		<div id="result">
+			<div><label>show diagnostics:</label><input type="checkbox" v-model="goals_diagnostics"></div>
+			<div v-if="goals_diagnostics">
+        Team 1 {{team_name.team_1}} Goals Total: {{goals_total_team1}} <br>
+        Team 2 {{team_name.team_2}} Goals Total: {{goals_total_team2}} <br>
+        Score Results: {{score_results}}
+      </div>
+			<!--<span v-if="team_1">{{team_name}} is the winner!</span>-->
+			<!--<span v-else>{{team_name}} lost.</span>-->
+		</div>
+	</div>
+  <br>
+  <hr>
+  <!-- Challenge Description. -->
+  <div>
+    <h1>Challenge:</h1>
+    <p>You record all of the scoring activity at a basketball game.
+       Points are scored by a 3-point shot, a 2-point field goal, or a 1-point free throw.
+
+        You know the number of each of these types of scoring for the two teams: Team Apples and Team Bananas.
+        Your job is to determine which team won, or if the game ended in a tie.</p>
+    
+    <h2>Input Specs.</h2>
+    <p>The first three lines of input describe the scoring of the Apples, and the next three lines of input describe the scoring of the Bananas.
+       For each team, the first line contains the number of successful 3-point shots, the second line contains the number of successful 2-point field goals, and the third line contains the number of successful 1-point free throws.
+       Each number will be an integer between 0 and 100, inclusive.</p>
+
+    <h2>Output Specs.</h2>
+    <p>The output will be a single character.
+       If the Apples scored more points than the Bananas, output A.
+       If the Bananas scored more points than the Apples, output B.
+       Otherwise, output T, to indicate a tie.</p>
+
+    <br>
+    <hr>
+    <div>
+      <h2>Sample Input 1.</h2>
+      <p>Team Apples: 10, 3, 7. Team Bananas: 8, 9, 6.</p>
+
+      <h2>Sample Output 1.</h2>
+      <p>B</p>
+
+      <h2>Explanation for Sample Output 1.</h2>
+      <p>The Apples scored 10*3+3*2+7*1 = 43 points and the Bananas scored 8*3+9*2+6*1 = 48 points, and thus Team Bananas won.</p>
+    </div>
+    <br>
+    <hr>
+    <div>
+      <h2>Sample Input 2.</h2>
+      <p>Team Apples: 7, 3, 0. Team Bananas: 6, 4, 1.</p>
+
+      <h2>Sample Output 2.</h2>
+      <p>T</p>
+
+      <h2>Explanation for Sample Output 2.</h2>
+      <p>The Apples scored 7*3+3*2+0*1 = 27 points and the Bananas scored 6*3+4*2+1*1 = 27 points, and thus it is a tie.</p>
+    </div>
+  </div>
+
+	<script>
+	var app = new Vue({
+		el: '#app',
+		data:{
+			goals_diagnostics:false,
+			team_name:{
+        team_1:"Apples",
+        team_2:"Bananas",
+      },
+			threePntShot_qty:{
+        team1_threePntShot:0,
+        team2_threePntShot:0
+      },
+			twoPntShot_qty:{
+        team1_twoPntShot:0,
+        team2_twoPntShot:0,
+      },
+			onePntShot_qty:{
+        team1_onePntShot:0,
+        team2_onePntShot:0,
+      },
+			threePntShot_value:3,
+			twoPntShot_value:2,
+			onePntShot_value:1
+		},
+		computed:{
+      // Team 1 calculate points:
+			goals_total_team1:function(){
+				return (this.threePntShot_qty.team1_threePntShot * this.threePntShot_value) + 
+				(this.twoPntShot_qty.team1_twoPntShot * this.twoPntShot_value) + 
+				(this.onePntShot_qty.team1_onePntShot * this.onePntShot_value);	
+			},
+      // Team 2 calculate points:
+			goals_total_team2:function(){
+				return (this.threePntShot_qty.team2_threePntShot * this.threePntShot_value) + 
+				(this.twoPntShot_qty.team2_twoPntShot * this.twoPntShot_value) + 
+				(this.onePntShot_qty.team2_onePntShot * this.onePntShot_value);	
+			},
+			score_results:function(){
+				// Team 1 output points:
+				//return this.goals_total_team1;
+				// Team 2 output points:
+				//return this.goals_total_team2;
+
+        // Output game summary:
+        if(this.goals_total_team1 > this.goals_total_team2){
+          return "A"
+        } else if (this.goals_total_team1 < this.goals_total_team2){
+          return "B"
+        } else {
+          return "T"
+        }
+			}
+		}
+	});
+	
+	</script>
+	<!--
+		v-model will allow you to quickly bind form elements to the data property.
+		Make sure to set a default value!
+		The Computed property can be used like data, except for values that are calculated from data properties.
+		In this example 'treat_total' is computed from data properties, and 'is_happy' is computed from 'treat_total'.
+		
+		ASYNCHRONOUS LEARNING EXERCISE : J1
+		- Find any J1 problem: chosen problem source: CCC 2019 J1, https://dmoj.ca/problem/ccc19j1
+		- Imagine an interface that allows the user to enter data on the webpage
+		- Build using v-model and computed properties!
+	
+	-->
+	</body>
+</html>

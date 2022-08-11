@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>v-if If Statements</title>
+		<meta charset="UTF-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.special {background:yellow; border: 1px dotted #fe0000; padding:30px; display:block; text-align:center;}
+			.important {font-weight:bold; font-size:30px;}
+		</style>
+	</head>
+	<body>
+	
+	<div id="app">
+    <span v-if="!profile.fname">
+			No First Name data found.<br>
+      Available Data:<br>
+      (FIRSTNAME) {{profile.lname}}: {{profile.desc}}
+      <br> {{profile.bio}}
+      <br> <img v-bind:src="imgSrc" v-bind:alt="imgAlt" v-bind:title="imgTitle" width=300">
+		</span>
+    <span v-else-if="!profile.lname">
+			No Last Name data found.<br>
+      Available Data:<br>
+      {{profile.fname}} (LASTNAME): {{profile.desc}}
+      <br> {{profile.bio}}
+      <br> <img v-bind:src="imgSrc" v-bind:alt="imgAlt" v-bind:title="imgTitle" width=300">
+		</span>
+    <span v-else-if="!profile.desc">
+			No Description data found.<br>
+      Available Data:<br>
+      {{profile.fname}} {{profile.lname}}: (DESCRIPTION)
+      <br> {{profile.bio}}
+      <br> <img v-bind:src="imgSrc" v-bind:alt="imgAlt" v-bind:title="imgTitle" width=300">
+		</span>
+    <span v-else-if="!profile.bio">
+			No Bio data found.<br>
+      Available Data:<br>
+      {{profile.fname}} {{profile.lname}}: {{profile.desc}}
+      <br> (BIO)
+      <br> <img v-bind:src="imgSrc" v-bind:alt="imgAlt" v-bind:title="imgTitle" width=300">
+		</span>
+    <span v-else-if="!imgSrc">
+			No Profile Image data found.<br>
+      Available Data:<br>
+      {{profile.fname}} {{profile.lname}}: {{profile.desc}}
+      <br> {{profile.bio}}
+      <br> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwc8jGI4J4x33_FM8BpeTiFoiPaRZqbAwjQkQzVtflxCi_jwy8titZTn_jQ87Bd736M0&usqp=CAU" alt="Image not found" title="Image not found">
+		</span>
+    <span v-else="profile">
+			Profile of {{profile.fname}} {{profile.lname}}: {{profile.desc}}
+      <br> {{profile.bio}}
+      <br> <img v-bind:src="imgSrc" v-bind:alt="imgAlt" v-bind:title="imgTitle" width="300">
+		</span>
+
+    <span v-if="!profile">
+			No Profile Data found.
+		</span>
+	</div>
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		
+		data:{
+			
+			profile:{
+				//fname: 'John',
+				lname: 'Doe',
+        desc: 'Lorem ipsum',
+        bio:'Bio info',
+        /*pic:{
+          imgSrc: 'https://i.natgeofe.com/n/05ecc07c-c0e3-4d94-9e32-93ba1e9110ed/white-tailed-deer_thumb_3x4.JPG',
+          imgAlt: 'profile.fname',
+          imgTitle: 'profile.fname'
+        }*/
+			},
+      imgSrc: 'https://i.natgeofe.com/n/05ecc07c-c0e3-4d94-9e32-93ba1e9110ed/white-tailed-deer_thumb_3x4.JPG',
+      imgAlt: 'Deer',
+      imgTitle: 'Deer'
+			
+		}
+		
+	});
+	</script>
+	
+		<!--
+		//step 1: Read Code Above
+		//step 2: Does the profile show up?
+		
+		v-if="boolean_expression"
+		v-else-if="boolean_expression"
+		v-else
+		
+		
+		You can code an if, else if, else statement into your render using the v-if, v-else-if, v-else.
+		Just like in regular programming, v-else has no condition
+		
+		Notice how the "profile" object is null. Reminder that null is Falsey in the boolean context.
+		
+		ASYNCHRONOUS LEARNING EXERCISE
+		1. Use the profile object to store information about yourself {fname, lname, desc, bio, pic}
+		2. Create a figure, figcaption, and image markup which acts as a description for yourself
+			(Something like this https://www.w3schools.com/howto/howto_css_cards.asp)
+		3. Write conditionals if information is missing (i.e. 'no bio available' if bio is blank, generic image if no pic is found)
+		-->
+	</body>
+</html>
